@@ -1,0 +1,19 @@
+# Copyright (c) Jupyter Development Team.
+# Distributed under the terms of the Modified BSD License.
+
+ARG JUPYTERHUB_VERSION
+FROM quay.io/jupyterhub/jupyterhub:$JUPYTERHUB_VERSION
+
+# Install dockerspawner, nativeauthenticator
+RUN python3 -m pip install --no-cache-dir \
+    dockerspawner \
+    jupyterhub-nativeauthenticator
+
+# Create shared directories in the image for when containers are spawned
+RUN mkdir -p /srv/jupyterhub/shared_notebooks /srv/jupyterhub/shared_data
+
+
+# Expose the JupyterHub port
+EXPOSE 8000
+
+CMD ["jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py"]

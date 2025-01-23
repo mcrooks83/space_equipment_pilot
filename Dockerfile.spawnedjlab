@@ -1,0 +1,19 @@
+# Use a Jupyter base image
+FROM quay.io/jupyter/base-notebook:latest
+
+# Set the working directory inside the container
+WORKDIR /home/jovyan/work
+
+# Install required Python packages
+RUN pip install --no-cache-dir \
+    numpy \
+    pandas \
+    matplotlib \
+    scipy
+
+
+# Expose necessary ports
+EXPOSE 8888
+
+# Default command to run the notebook server
+CMD ["start-notebook.sh", "--NotebookApp.token=''"]
